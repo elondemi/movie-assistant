@@ -25,7 +25,7 @@ for line in lines[:20]:
         tokenized_data.append({
             "original_text": line,
             "tokens": tokens,
-            "input_ids": input_ ids
+            "input_ids": input_ids
         })
 
 # Save the tokenized data to a JSON file
