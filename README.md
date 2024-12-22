@@ -239,6 +239,8 @@ After you finished setuping the project, tuning the model, you can now interact 
 python3 interact.py
 ```
 
+***For us this process took 13h and 53 minutes on specified machine above***
+
 We also implemented chaining prompt, so it doesn't look like session-less, instead, using the bot itself, when you ask several questions, it will combine the context, and give a new prompt for itself.
 
 Here is an example:
