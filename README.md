@@ -57,7 +57,7 @@ Before choosing BERT, we compared it to GPT2 and concluded that Bert is more acc
 
 
 ##### Code for tokenization:
-  ![Bounding box image](https://i.imgur.com/gJLlnJ1.png)
+  ![Bounding box image](https://i.imgur.com/hjd3fy0.png)
 
 ##### Results after data tokenization with BERT:
 
