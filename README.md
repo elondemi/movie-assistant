@@ -99,22 +99,24 @@ As the last step, to check if the dataset is propery fine-tuned, model evaluatio
 We got the following results from [wandb](https://wandb.ai):
 
   
-| Run Summary               |                    |
-|---------------------------|--------------------|
-| Eval / Loss               | 2.66126            |
-| Eval / Runtime            | 76.3163            |
-| Eval / samples_per_second | 1.66               |
-| Eval / steps_per_seconds  | 1.16               |
-| Total_flos                | 9167114454148552.0 |
-| Train / Epoch             | 1.0                |
-| Train / global_step       | 450                |
-| Train / grad_norm         | 2.54422            |
-| Train / learning_rate     | 0.0                |
-| Train / loss              | 2.7479             |
-| Train_loss                | 2.5901             |
-| Train_runtime             | 1798.8689          |
-| train_samples_per_second  | 0.5                |
-| train_steps_per_second    | 0.25               |
+| Parameter                 | Value              | Description                                                                                                                                                                                    |
+|---------------------------|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Eval / Loss               | 2.66126            | This represents the evaluation loss, which measures the error of the model on the validation dataset. A lower value indicates better performance.                                              |
+| Eval / Runtime            | 76.3163            | The total time (in seconds) taken to evaluate the model on the validation dataset.                                                                                                             |
+| Eval / samples_per_second | 1.66               | The number of samples evaluated per second during the evaluation phase.                                                                                                                        |
+| Eval / steps_per_seconds  | 1.16               | The number of evaluation steps processed per second.                                                                                                                                           |
+| Total_flos                | 9167114454148552.0 | Total floating-point operations (FLOPs) performed by the model during training and evaluation. This is a measure of computational effort.                                                      |
+| Train / Epoch             | 1.0                | The current epoch number during training. An epoch represents one complete pass through the entire training dataset.                                                                           |
+| Train / global_step       | 450                | The total number of optimization steps completed. This includes all the steps across all epochs.                                                                                               |
+| Train / grad_norm         | 2.54422            | The norm of the gradients, which measures the magnitude of changes being applied to the model's weights during backpropagation. Large values may indicate instability or issues with learning. |
+| Train / learning_rate     | 0.0                | The current learning rate being used by the optimizer during training. A value of 0.0 may indicate the end of training or a specific learning rate schedule.                                   
+                                                                                                                                                   |
+| Train / loss              | 2.7479             | The loss computed during the last training step. It measures how well the model is performing; lower values indicate better performance.                                                       |
+| Train_loss                | 2.5901             | The average loss across all training steps up to this point in the training process.                                                                                                                                                                                               |
+| Train_runtime             | 1798.8689          | The total time (in seconds) taken to complete the training process.
+                                                                                                                                                                                               |
+| train_samples_per_second  | 0.5                | The number of training samples processed per second during training.                                                                                                                                                                                               |
+| train_steps_per_second    | 0.25               | The number of training steps processed per second during training.                                                                                                                                                                                               |
 
 
   ![Model evaluation](https://i.imgur.com/Aoof2Ou.png)
