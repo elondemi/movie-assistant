@@ -113,10 +113,9 @@ We got the following results from [wandb](https://wandb.ai):
                                                                                                                                                    |
 | Train / loss              | 2.7479             | The loss computed during the last training step. It measures how well the model is performing; lower values indicate better performance.                                                       |
 | Train_loss                | 2.5901             | The average loss across all training steps up to this point in the training process.                                                                                                                                                                                               |
-| Train_runtime             | 1798.8689          | The total time (in seconds) taken to complete the training process.
-                                                                                                                                                                                               |
-| train_samples_per_second  | 0.5                | The number of training samples processed per second during training.                                                                                                                                                                                               |
-| train_steps_per_second    | 0.25               | The number of training steps processed per second during training.                                                                                                                                                                                               |
+| Train_runtime             | 1798.8689          | The total time (in seconds) taken to complete the training process.  |
+| train_samples_per_second  | 0.5                | The number of training samples processed per second during training. |
+| train_steps_per_second    | 0.25               | The number of training steps processed per second during training.|
 
 
   ![Model evaluation](https://i.imgur.com/Aoof2Ou.png)
@@ -200,7 +199,7 @@ llama model download --source meta --model-id MODEL_ID
 
 When the script asks for your unique custom URL, please paste the URL below:
 ```bash
-<linku i ofruar nga META>
+<link provided by META>
 ```
 
 
