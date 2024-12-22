@@ -3,13 +3,15 @@ import torch
 
 torch.cuda.empty_cache()
 import os
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:100"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
-base_model = "/home/avdyl/FIEKMASTER/nlp/movie-assistant/fiekmodel"
+base_model = dir_path + "/fiekmodel"
 tokenizer = AutoTokenizer.from_pretrained(base_model)
 
+#Ngarkimi i modelit nga lokalisht
 model = AutoModelForCausalLM.from_pretrained(
     base_model,
     return_dict=True,
@@ -34,17 +36,19 @@ pipe = pipeline(
 
 model.config.use_cache = True
 
+#Interaksioni me modelin e trajnuar
+
 first_question = "What happened in season 4 of Mr. Robot?"
 
 prompt = tokenizer.apply_chat_template(
     [{"role": "user", "content": first_question}], tokenize=False, add_generation_prompt=True
 )
-outputs = pipe(prompt, max_new_tokens=120, do_sample=True)
+outputs = pipe(prompt, max_new_tokens=400, do_sample=True)
 
 # print(outputs)
 print(outputs[0]["generated_text"])
 
-
+#
 second_question = "What is Dissociative identity disorder?"
 
 prompt = tokenizer.apply_chat_template(

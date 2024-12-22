@@ -5,24 +5,36 @@ import os
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:100"
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 import torch
-torch.cuda.empty_cache()
+from dotenv import load_dotenv
+import wandb
+from huggingface_hub import login
 
+#Pastrimi permes garbage collection
+torch.cuda.empty_cache()
 gc.collect()
+
+#Ngarkimi i env variablave
+load_dotenv()
+
+#Importimi i reinforcement learning
 from trl import SFTTrainer, setup_chat_format
+
+#importimi i PEFT (Parameter-Efficient Fine-Tuning)
 from peft import (
     LoraConfig,
     PeftModel,
     prepare_model_for_kbit_training,
     get_peft_model,
 )
-import wandb
-from huggingface_hub import login
 
-hf_token = "hf_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+hf_token = os.getenv('hf_token')
 login(token = hf_token)
 
-wb_token = "hf_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+wb_token = os.getenv('wb_token')
 
+
+#Startimi i wandb
 wandb.login(key=wb_token)
 run = wandb.init(
     project='Fine-tune Llama 3 8B on Medical Dataset',
@@ -30,7 +42,7 @@ run = wandb.init(
     anonymous="allow"
 )
 
-
+#Ngarkimi i modelit baze
 base_model = "/home/avdyl/FIEKMASTER/llama-3.2-transformers-1b-instruct-v1"
 tokenizer = AutoTokenizer.from_pretrained(base_model)
 
@@ -39,6 +51,7 @@ tokenizer = AutoTokenizer.from_pretrained(base_model)
 #Import dataset
 dataset = load_dataset('json', data_files='./contextual_pairing.json', split='all')
 
+#Definimi i template te chat-it
 def format_chat_template(row):
     print(row)
     row_json = [{"role": "user", "content": row['0']},
@@ -47,14 +60,12 @@ def format_chat_template(row):
     return row
 
 
-
+#Mapimi i secilit rekord ne dataset permes chat templates
 dataset = dataset.map(format_chat_template)
-#
-#
-#
-# # base_model = "/kaggle/input/llama-3.2/transformers/3b-instruct/1"
+
 new_model = "./fiekmodel"
 
+#Krijimi i modelit te ri
 model = AutoModelForCausalLM.from_pretrained(
     base_model,
     return_dict=True,
@@ -75,17 +86,10 @@ peft_config = LoraConfig(
 )
 model = get_peft_model(model, peft_config)
 
-
-if tokenizer.pad_token_id is None:
-    tokenizer.pad_token_id = tokenizer.eos_token_id
-if model.config.pad_token_id is None:
-    model.config.pad_token_id = model.config.eos_token_id
-
-
-
-
+#Ndarja e dataset-it 80 per trajnim / 20 per testim
 dataset = dataset.train_test_split(test_size=0.2)
 
+#Argumentet e trajnimit (Keto mund te modifikohen sipas preferencave)
 training_arguments = TrainingArguments(
     output_dir=new_model,
     per_device_train_batch_size=1,
@@ -103,8 +107,8 @@ training_arguments = TrainingArguments(
     fp16=False,
     bf16=False,
     group_by_length=True,
-    report_to="none",
-    # report_to="wandb"
+    # report_to="none",
+    report_to="wandb"
 )
 
 trainer = SFTTrainer(
@@ -112,24 +116,22 @@ trainer = SFTTrainer(
     train_dataset=dataset["train"],
     eval_dataset=dataset["test"],
     peft_config=peft_config,
-    # max_seq_length=512,
     # dataset_text_field="text",
     tokenizer=tokenizer,
     args=training_arguments,
     # packing= False,
 )
 
-wandb.finish()
-
+#Startoje trajnimin
 trainer.train()
 
-pipe = pipeline(
-    "text-generation",
-    model=model,
-    tokenizer=tokenizer,
-    torch_dtype=torch.float16,
-    device_map="auto",
-)
+#Tregoj wandb qe te ndalet ne tracking te trajnimit
+wandb.finish()
+
+#Ruaj modelin dhe tokenizer lokalisht
+tokenizer.save_pretrained(new_model)
+model.save_pretrained(new_model)
 
 
-model.config.use_cache = True
+
+
