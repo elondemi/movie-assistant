@@ -134,6 +134,8 @@ To implement the chatbot, which requires various processes such as data collecti
 
 
 
+
+
 ## Project Setup
 
 Ensure Python 3.12+ and a virtual environment (venv) are installed before proceeding.
@@ -227,4 +229,66 @@ total 2422724
 
 The folder containing these files will be used as input during the `llamatune.py` program.
 
+# Interacting with our FIEK chatbot
 
+After you finished setuping the project, tuning the model, you can now interact with trained model using the following command:
+```sh
+python3 interact.py
+```
+
+We also implemented chaining prompt, so it doesn't look like session-less, instead, using the bot itself, when you ask several questions, it will combine the context, and give a new prompt for itself.
+
+Here is an example:
+
+```
+User: What happened in season 4 of Mr. Robot?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+Chatbot: Season 4 of Mr. Robot premiered on October 7, 2017. Here's a brief summary of the key events:
+
+* The season begins with Elliot Alderson (Rami Malek) and Darlene (Jena Malone) on the run from the FBI and Mr. Robot's (Christian Slater) plans to expose the corporation's true intentions.
+* Elliot and Darlene are forced to go on the run, and Elliot becomes increasingly obsessed with finding a way to take down the corporation from the inside.
+* Meanwhile, Angela Moss (Carly Chaikin) becomes more involved in Elliot's plans, and their relationship deepens.
+* Elliot and Mr. Robot's plan to take down the corporation is revealed, and Elliot becomes more and more conflicted about the morality of their actions.
+* The season culminates in a dramatic and intense confrontation between Elliot and the corporation, with Elliot ultimately deciding to go rogue and take matters into his own hands.
+
+Overall, Season 4 of Mr. Robot is a wild and unpredictable ride, with many twists and turns that keep viewers on the edge of their seats.
+
+```
+
+Now, when the user asks the second question:
+
+```
+User: What is Dissociative identity disorder?
+```
+
+We programmed the chatbot as the following prompt:
+
+
+Someone first asked ***QUESTION A***, and then followed up with question ***QUESTION B***. answer the second question and relate it to the first question.
+
+
+```
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You show only the direct answer, do not say here is what you have asked for or anything like that.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Someone first asked "What happened in season 4 of Mr. Robot?", and then followed up with question "What is Dissociative identity disorder?". answer the second question and relate it to the first question.
+<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+```
+
+Then the chatbot gives us a contextual answer:
+
+```
+Dissociative identity disorder (DID) is a mental health condition characterized by the presence of two or more distinct identities or personalities within an individual, often with different thoughts, feelings, and behaviors. People with DID may experience a range of symptoms, including:
+
+* Memory lapses or gaps
+* Difficulty forming and maintaining relationships
+* Emotional instability and mood swings
+* Dissociation from one's surroundings or self
+* Intrusive thoughts or flashbacks
+* Identity fragmentation
+
+In the context of Mr. Robot, the character Elliot Alderson's dissociative identity disorder is a central plot point. As Elliot navigates the complex web of corporate espionage and conspiracy, he experiences dissociative episodes, where he switches between different personalities or identities, often with conflicting goals and motivations. This dissociation allows Elliot to cope with the trauma and stress of his situation, but it also creates challenges for him to maintain his sense of self and identity.
+
+The show's creator, Sam Esmail, has stated that he drew inspiration from his own experiences with dissociative identity disorder when developing the character of Elliot Alderson. The show explores the psychological and emotional toll of DID, as well as the complexities of identity and selfhood, which are also central themes in the show.
+
+```
