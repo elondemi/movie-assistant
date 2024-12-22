@@ -89,6 +89,9 @@ In our case, we have chosen model [3.2B](https://www.kaggle.com/models/metaresea
 - It offers various versions, adaptable for devices with both low and high processing power. 
 - The LLaMa model is designed for text, unlike other models such as Segment Anything, which is dedicated to images.
 
+Also, LlaMa is considered ***state of the art***  open model so far according to the following to [this article](https://blog.hippoai.org/metas-strategy-for-open-sourcing-llama-a-detailed-analysis-hippogram-27/)!
+    ![Closed source vs open-weight models](https://blog.hippoai.org/content/images/size/w1000/2024/08/image.png)
+
 For better training our model to recognise response patterns and give accurate responses for movie subtitles we have used a pre-training model(fine tuning) called Llama 3.  Supervised Fine-Tuning Task was employed to train the model on specific labeled dataset that we created by creating contextual pairs.
 
 
@@ -127,7 +130,7 @@ As we can see, during step iterations, the eval/loss and train/grad_norm was dro
 ### Technology Used
 
 To implement the chatbot, which requires various processes such as data collection, preprocessing, format analysis, training and evaluation, various technologies have been used, such as:
-- Transformers – Python Library, which provided many transformed-based models like Bert, GPT.(https://huggingface.co/docs/transformers/en/index)
+- Transformers –    Python Library, which provided many transformed-based models like Bert, GPT.(https://huggingface.co/docs/transformers/en/index)
 - BertTokenizer - text processing tool, NLP model developed by google. Was used to convert text into tokens(https://huggingface.co/docs/transformers/en/model_doc/bert) 
 - TRL - Transformer Reinforcement Learning, library which provided a set of tools to train models with Supervised Fine-tuning trainer(SFTT)(https://huggingface.co/docs/trl/en/index)
 - Weights & Biases (W&B) – tool used for model evaluation.(https://wandb.ai/site/)
