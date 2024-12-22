@@ -89,7 +89,27 @@ model = get_peft_model(model, peft_config)
 #Ndarja e dataset-it 80 per trajnim / 20 per testim
 dataset = dataset.train_test_split(test_size=0.2)
 
-#Argumentet e trajnimit (Keto mund te modifikohen sipas preferencave)
+# Below is a list of hyperparameters that can be used to optimize the training process:
+#
+#     output_dir: The output directory is where the model predictions and checkpoints will be stored.
+#     num_train_epochs: One training epoch.
+#     fp16/bf16: Disable fp16/bf16 training.
+#     per_device_train_batch_size: Batch size per GPU for training.
+#     per_device_eval_batch_size: Batch size per GPU for evaluation.
+#     gradient_accumulation_steps: This refers to the number of steps required to accumulate the gradients during the update process.
+#     gradient_checkpointing: Enabling gradient checkpointing.
+#     max_grad_norm: Gradient clipping.
+#     learning_rate: Initial learning rate.
+#     weight_decay: Weight decay is applied to all layers except bias/LayerNorm weights.
+#     Optim: Model optimizer (AdamW optimizer).
+#     lr_scheduler_type: Learning rate schedule.
+#     max_steps: Number of training steps.
+#     warmup_ratio: Ratio of steps for a linear warmup.
+#     group_by_length: This can significantly improve performance and accelerate the training process.
+#     save_steps: Save checkpoint every 25 update steps.
+#     logging_steps: Log every 25 update steps.
+
+
 training_arguments = TrainingArguments(
     output_dir=new_model,
     per_device_train_batch_size=1,
